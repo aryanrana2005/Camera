@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera Access with User Permission</title>
+</head>
+<body>
+    <h2>Camera Access Request</h2>
+    <p>Click "Enable Camera" below to allow camera access. This requires explicit permission each time.</p>
+    <button id="start-camera">Enable Camera</button>
+    <video id="camera-stream" autoplay playsinline style="display: none;"></video>
+
+    <script>
+        const startCameraButton = document.getElementById('start-camera');
+        const cameraStream = document.getElementById('camera-stream');
+
+        startCameraButton.addEventListener('click', async () => {
+            try {
+                // Request camera permission from the user
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                cameraStream.srcObject = stream;
+                cameraStream.style.display = 'block';
+                startCameraButton.style.display = 'none';
+            } catch (error) {
+                console.error('Camera access denied:', error);
+                alert('Camera access was denied or is unavailable.');
+            }
+        });
+    </script>
+</body>
+</html>
